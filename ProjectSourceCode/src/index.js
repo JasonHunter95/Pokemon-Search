@@ -15,8 +15,6 @@ const axios = require('axios'); // used for making HTTP requests (fetching data 
 const flash = require('express-flash'); // used for flashing messages to the user
 const { constants } = require('fs');
 
-app.use(express.static(__dirname + '/')); // serves static files (e.g. images, stylesheets, etc.)
-
 const hbs = exphbs.create({
     extname: 'hbs', // specifies the file extension for .hbs files
     layoutsDir: path.join(__dirname, '/views/layouts'), // specifies the directory for layout files
@@ -50,6 +48,7 @@ app.set('view engine', 'hbs'); // sets the view engine to handlebars
 app.set('views', path.join(__dirname, 'views')); // specifies the directory for view files
 app.use(express.json()); // specify the usage of JSON for parsing request body data
 app.use(express.static('public')); // specify the usage of static files
+app.use(express.static(__dirname + '/')); // serves static files (e.g. images, stylesheets, etc.)
 
 // initialize session variables using express-session for user login functionalities
 app.use(
@@ -172,9 +171,6 @@ async function fetch_detailed_pokemon_info(pokemon_name) {
 
 /*
 - renders the home page of the application
-- displays the home page with the following data:
-    - userLoggedIn: the user ID of the logged in user (if any)
-    - flash_messages: an array of flash messages to display to the user
 */
 app.get('/', (req, res) => {
     res.render('pages/home');

@@ -165,15 +165,6 @@ body {
   list-style: none;
 }
 
-.pokemon-card .counter {
-  /* border */
-  background-color: #FFCC00; 
-  width: 25px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  border-radius: 100%;
-  list-style: none;
-}
 
 .pokemon-card .card-title {
   margin-bottom: 0; 
