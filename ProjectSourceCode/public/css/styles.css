@@ -97,6 +97,15 @@
   background-color: #dd3e3e; /* hovering over the button is responsive and changes red */
 }
 
+/* this changes the searched card to not be hyperlink blue */
+.card-link {
+  text-decoration: none;  /* Removes the underline */
+  color: inherit;         /* Inherits the text color from the parent elements */
+}
+.card-link:hover {
+  cursor: pointer;        /* Changes the cursor to indicate the link is clickable */
+}
+
 /* background styling happens here
 body {
   background-image:url('/images/background.jpeg');
@@ -106,15 +115,15 @@ body {
 
 /* all or at least most?? css for displaying cards is below */
 
-.pokemon-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-  align-items: start;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font: bolder;
-  font-size: larger;
+#pokemon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#pokemon-container:hover {
+  transform: scale(1.00);
+  transition: transform 0.2s ease;
 }
 
 
