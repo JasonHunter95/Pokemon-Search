@@ -1,1 +1,23 @@
 <div id="title">Homepage</div> 
+<script type="text/javascript" src="/js/search.js"></script>
+<div id="default-cards">
+  {{#each results}}
+    <div class="card pokemon-card {{this.first_type}}" width="18rem">
+      <img class="card-img-top" alt="Card image cap" src="{{this.img_url}}" />
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}</h5>
+        <p class="card-text type">Type(s): {{this.types_string}}</p>
+      </div>
+      <ul class="list-group list-group-flush" id="pokemon_description">
+        <li class="list-group-item stats">HP: {{this.hp}}</li>
+        <li class="list-group-item stats">Attack: {{this.attack}}</li>
+        <li class="list-group-item stats">Defense: {{this.defense}}</li>
+        <li class="list-group-item stats">Special Attack:
+          {{this.special_attack}}</li>
+        <li class="list-group-item stats">Special Defense:
+          {{this.special_defense}}</li>
+        <li class="list-group-item stats">Speed: {{this.speed}}</li>
+      </ul>
+    </div>
+  {{/each}}
+</div>

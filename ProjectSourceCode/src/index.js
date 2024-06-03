@@ -84,7 +84,7 @@ async function fetch_pokemon_info(pokemon_name) {
         }
 
         const data = await response.json();
-        const img_url = data.sprites.front_default;
+        const img_url = data.sprites.other['official-artwork'].front_default;
         const stats = data.stats;
         const hp = stats[0].base_stat;
         const attack = stats[1].base_stat;
@@ -170,10 +170,36 @@ async function fetch_detailed_pokemon_info(pokemon_name) {
 }
 
 /*
-- renders the home page of the application
+- renders the home page of the application with 151 default pokemon.
 */
-app.get('/', (req, res) => {
-    res.render('pages/home');
+app.get('/', async (req, res) => {
+    const limit = req.query.limit || 151; // default limit is 151 
+    try {
+        const results = await axios({
+            url: `https://pokeapi.co/api/v2/pokemon?limit=${limit}`,
+            method: 'GET',
+            dataType: 'json',
+            headers: {
+                'Accept-Encoding': 'application/json',
+            }
+        });
+
+        let pokemons = [];
+        if (results && results.data.results) {
+            pokemons = results.data.results;
+        }
+
+        const pokemon_data = await Promise.all(pokemons.map(pokemon =>
+            fetch_pokemon_info(pokemon.name)));
+
+        res.render('pages/home', {
+            results: pokemon_data,
+        });
+    } catch (error) {
+        console.log(error);
+        res.render('pages/home', {
+        });
+    }
 });
 
 // route to display more detailed pokemon information
