@@ -5,6 +5,14 @@
         <h1>Search</h1>
       </div>
       <div class="search-bar">
+        <div class = "search-type">
+          <label>
+            <input type="radio" name="search_type" value="pokemon" checked> Pokémon
+          </label>
+          <label>
+            <input type="radio" name="search_type" value="item"> Item
+          </label>
+        </div>
         <input type="text" id="search_input_field" placeholder="Search for ANY Pokémon by their name or ID# ..."/>
         <button type="submit" id="search_button">Search</button>
       </div>
@@ -12,6 +20,7 @@
   </div>
 </section>
 <div id="pokemon-container"></div>
+<div id="item-container"></div>
 <script type="text/javascript" src="/js/search.js"></script>
 <div id="default-cards">
   {{#each results}}
