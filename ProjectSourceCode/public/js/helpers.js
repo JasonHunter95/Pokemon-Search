@@ -34,6 +34,7 @@ async function make_pokemon_card(name) {
     const types_string = data.types.map(obj => obj.type.name).join(', ');
 
     const pokemonCard = elt('div', {}, "",
+    elt('a', { href: `/pokemon/${name}`, class: 'card-link' }, "",  // Link that points to the detailed view
         elt('table', {}, "",
             elt('tbody', {}, "",
                 elt('tr', {}, "",
@@ -62,9 +63,7 @@ async function make_pokemon_card(name) {
                 elt('tr', {}, "",
                     elt('tr', {}, "",
                         elt('td', {}, `Type(s):`),
-                        elt('td', {}, `${types_string}`))))));
+                        elt('td', {}, `${types_string}`)))))));
     return [pokemonCard, name];  // Return as array
 }
-
-export { capitalize, elt, make_pokemon_card };
 

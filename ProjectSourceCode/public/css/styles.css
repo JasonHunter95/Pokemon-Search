@@ -126,6 +126,17 @@ body {
   transition: transform 0.2s ease;
 }
 
+#item-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#item-container:hover {
+  transform: scale(1.00);
+  transition: transform 0.2s ease;
+}
+
 
 #default-cards {
   /* display: flex;
