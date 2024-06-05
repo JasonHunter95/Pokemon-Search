@@ -143,23 +143,23 @@ async function make_item_card(name) {
         return [null, null];  // Return null values if fetch fails
     }
     const data = await response.json();
-    const is_countable = data.attributes[0].name;
-    const is_consumable = data.attributes[1].name;
-    const usable_overworld = data.attributes[2].name;
-    const usable_battle = data.attributes[3].name;
-    // const holdable = data.attributes[4].name;
+    const is_countable = data.attributes?.[0]?.name || 'N/A';
+    const is_consumable = data.attributes?.[1]?.name || 'N/A';
+    const usable_in_battle = data.attributes?.[2]?.name || 'N/A';
+    const is_holdable = data.attributes?.[3]?.name || 'N/A';
 
-    const baby_trigger_for = data.baby_trigger_for;
-    const item_category = data.category.name;
-    const cost = data.cost;
-    const effect_entries = data.effect_entries;
-    const fling_effect = data.fling_effect;
-    const fling_power = data.fling_power;
+    const baby_trigger_for = data.baby_trigger_for || 'N/A';
+    const item_category = data.category?.name;
+    const cost = data.cost || 'N/A';
+    const effect_entries = data.effect_entries?.[0]?.effect || 'N/A';
+    const secondary_effect = data.effect_entries?.[0]?.short_effect || 'No secondary effect information available';
+    const fling_effect = data.fling_effect || 'No fling effect information available';
+    const fling_power = data.fling_power || 'No fling power information available';
     // const held_by_pokemon = data.held_by_pokemon.pokemon[0].name;
-    const item_id = data.id;
-    const item_name = data.name;
-    const sprite = data.sprites.default;
-    const item_description = data.flavor_text_entries[2].text;
+    const item_id = data.id || 'N/A';
+    const item_name = data.name || 'N/A';
+    const sprite = data.sprites.default || 'N/A';
+    const item_description = data.flavor_text_entries?.[2]?.text || data.flavor_text_entries?.[1]?.text || data.flavor_text_entries?.[0]?.text || 'No description available';
 
     const itemCard = elt('div', {}, "",
     elt('table', {}, "",
@@ -186,5 +186,3 @@ async function make_item_card(name) {
                 elt('td', {}, `${effect_entries}`)))));
     return [itemCard, name];  // Return as array
 }
-
-
