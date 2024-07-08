@@ -196,3 +196,102 @@ body {
   color: #000000;
   text-align: center;
 }
+
+/* const colours = {
+	normal: '#A8A77A',
+	fire: '#EE8130',
+	water: '#6390F0',
+	electric: '#F7D02C',
+	grass: '#7AC74C',
+	ice: '#96D9D6',
+	fighting: '#C22E28',
+	poison: '#A33EA1',
+	ground: '#E2BF65',
+	flying: '#A98FF3',
+	psychic: '#F95587',
+	bug: '#A6B91A',
+	rock: '#B6A136',
+	ghost: '#735797',
+	dragon: '#6F35FC',
+	dark: '#705746',
+	steel: '#B7B7CE',
+	fairy: '#D685AD',
+}; */
+
+.pokemon-card.normal {
+  background-color: #A8A77A;
+}
+
+.pokemon-card.fire {
+  background-color: #EE8130;
+}
+
+.pokemon-card.water {
+  background-color: #6390F0;
+}
+
+.pokemon-card.electric {
+  background-color: #F7D02C;
+}
+
+.pokemon-card.grass {
+  background-color: #7AC74C;
+} */
+
+.pokemon-card.ice {
+  background-color: #96D9D6;
+}
+
+.pokemon-card.fighting {
+  background-color: #C22E28;
+}
+
+.pokemon-card.poison {
+  background-color: #A33EA1;
+}
+
+.pokemon-card.ground {
+  background-color: #E2BF65;
+}
+
+.pokemon-card.flying {
+  background-color: #A98FF3;
+}
+
+.pokemon-card.psychic {
+  background-color: #F95587;
+}
+
+.pokemon-card.bug {
+  background-color: #A6B91A;
+}
+
+.pokemon-card.rock {
+  background-color: #B6A136;
+}
+
+.pokemon-card.ghost {
+  background-color: #735797;
+}
+
+.pokemon-card.dragon {
+  background-color: #6F35FC;
+}
+
+.pokemon-card.dark {
+  background-color: #705746;
+}
+
+.pokemon-card.steel {
+  background-color: #B7B7CE;
+}
+
+.pokemon-card.fairy {
+  background-color: #D685AD;
+}
+
+/* type combos */
+/* .pokemon-card.fire-fighting {
+  background-color: #C22E28 + #EE8130;
+} */
+
