@@ -220,36 +220,36 @@ app.get('/pokemon/:name', (req, res) => {
         });
 });
 
-app.get('/search', async (req, res) => {
-    const limit = req.query.limit || 151; // default limit is 151 
-    try {
-        const results = await axios({
-            url: `https://pokeapi.co/api/v2/pokemon?limit=${limit}`,
-            method: 'GET',
-            dataType: 'json',
-            headers: {
-                'Accept-Encoding': 'application/json',
-            }
-        });
+// app.get('/search', async (req, res) => {
+//     const limit = req.query.limit || 151; // default limit is 151 
+//     try {
+//         const results = await axios({
+//             url: `https://pokeapi.co/api/v2/pokemon?limit=${limit}`,
+//             method: 'GET',
+//             dataType: 'json',
+//             headers: {
+//                 'Accept-Encoding': 'application/json',
+//             }
+//         });
 
-        let pokemons = [];
-        if (results && results.data.results) {
-            pokemons = results.data.results;
-        }
+//         let pokemons = [];
+//         if (results && results.data.results) {
+//             pokemons = results.data.results;
+//         }
 
-        const pokemon_data = await Promise.all(pokemons.map(pokemon =>
-            fetch_pokemon_info(pokemon.name)));
+//         const pokemon_data = await Promise.all(pokemons.map(pokemon =>
+//             fetch_pokemon_info(pokemon.name)));
 
-        res.render('pages/search', {
-            results: pokemon_data,
-        });
-    } catch (error) {
-        console.log(error);
-        res.render('pages/search', {
-        });
-    }
+//         res.render('pages/search', {
+//             results: pokemon_data,
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.render('pages/search', {
+//         });
+//     }
 
-});
+// });
 
 
 module.exports = app;

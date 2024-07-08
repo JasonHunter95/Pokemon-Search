@@ -1,9 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
     const search_button = document.getElementById("search_button");
     const search_input_field = document.getElementById("search_input_field");
+    const random_pokemon_btn = document.getElementById("random-pokemon-btn");
+    const type_buttons = document.querySelectorAll(".type-btn");
     const pokemon_container = document.getElementById("pokemon-container");
     const item_container = document.getElementById("item-container");
     const default_cards_div = document.getElementById('default-cards');
+
+    random_pokemon_btn?.addEventListener("click", async () => {
+        default_cards_div?.remove();
+        const query = Math.floor(Math.random() * 1025) + 1;
+        const [pokemon_card, pokemon_name] = await make_pokemon_card(query).catch(err => {
+            console.error(err);
+            pokemon_container.textContent = "Failed to fetch Pokemon. Please try again.";
+            return [null, null];
+        });
+        if (pokemon_card) {
+            pokemon_container.textContent = ''; // Clear previous contents more efficiently
+            while (pokemon_container.firstChild) {
+                pokemon_container.removeChild(pokemon_container.firstChild);
+            }
+            pokemon_container.appendChild(pokemon_card);
+        }
+    });
 
     search_input_field.addEventListener("keypress", (event) => {
         // If the user presses the "Enter" key on the keyboard
