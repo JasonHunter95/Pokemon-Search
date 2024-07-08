@@ -1,8 +1,8 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const search_button = document.getElementById("search_button");
     const search_input_field = document.getElementById("search_input_field");
     const pokemon_container = document.getElementById("pokemon-container");
+    const item_container = document.getElementById("item-container");
     const default_cards_div = document.getElementById('default-cards');
 
     search_input_field.addEventListener("keypress", (event) => {
@@ -17,27 +17,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     search_button.addEventListener("click", async () => {
+        const search_type = document.querySelector('input[name="search_type"]:checked').value;
+
         if (!search_input_field.value.trim()) {
-            alert("Please enter a Pokemon name or ID to search for.");
+            alert("Please enter a ${search_type} name.");
             return;
         }
         default_cards_div?.remove();
         const query = search_input_field.value.toLowerCase();
-        const [pokemon_card, name] = await make_pokemon_card(query).catch(err => {
-            console.error(err);
-            pokemon_container.textContent = "Failed to fetch Pokémon data. Please try again.";
-            return [null, null];
-        });
+        let pokemon_card, pokemon_name, item_card, item_name;
 
-        if (!pokemon_card) {
-            pokemon_container.textContent = "Pokemon not found.";
-            return;
+        pokemon_container.textContent = '';
+        item_container.textContent = '';
+
+        if (search_type === "pokemon") {
+            [pokemon_card, pokemon_name] = await make_pokemon_card(query).catch(err => {
+                console.error(err);
+                pokemon_container.textContent = "Failed to fetch Pokémon data. Please try again.";
+                return [null, null];
+            });
+        } else if (search_type === "item") {
+            [item_card, item_name] = await make_item_card(query).catch(err => {
+                console.error(err);
+                item_container.textContent = "Failed to fetch item data. Please try again.";
+                return [null, null];
+            });
         }
-        pokemon_container.textContent = ''; // Clear previous contents more efficiently
-        while (pokemon_container.firstChild) {
-            pokemon_container.removeChild(pokemon_container.firstChild);
+
+        if (search_type === "pokemon") {
+            if (!pokemon_card) {
+                pokemon_container.textContent = `${capitalize(search_type)} not found.`;
+                return;
+            }
+            pokemon_container.textContent = ''; // Clear previous contents more efficiently
+            while (pokemon_container.firstChild) {
+                pokemon_container.removeChild(pokemon_container.firstChild);
+            }
+            pokemon_container.appendChild(pokemon_card);
+        } else if (search_type === "item") {
+            if (!item_card) {
+                item_container.textContent = `${capitalize(search_type)} not found.`;
+                return;
+            }
+            item_container.textContent = ''; // Clear previous contents more efficiently
+            while (item_container.firstChild) {
+                item_container.removeChild(item_container.firstChild);
+            }
+            item_container.appendChild(item_card);
         }
-        pokemon_container.appendChild(pokemon_card);
     });
 });
 
@@ -110,4 +137,52 @@ function capitalize(string) {
     return string.slice(0, 1).toUpperCase() + string.slice(1);
 }
 
+async function make_item_card(name) {
+    const response = await fetch(`https://pokeapi.co/api/v2/item/${name}`);
+    if (!response.ok) {
+        return [null, null];  // Return null values if fetch fails
+    }
+    const data = await response.json();
+    const is_countable = data.attributes?.[0]?.name || 'N/A';
+    const is_consumable = data.attributes?.[1]?.name || 'N/A';
+    const usable_in_battle = data.attributes?.[2]?.name || 'N/A';
+    const is_holdable = data.attributes?.[3]?.name || 'N/A';
 
+    const baby_trigger_for = data.baby_trigger_for || 'N/A';
+    const item_category = data.category?.name;
+    const cost = data.cost || 'N/A';
+    const effect_entries = data.effect_entries?.[0]?.effect || 'N/A';
+    const secondary_effect = data.effect_entries?.[0]?.short_effect || 'No secondary effect information available';
+    const fling_effect = data.fling_effect || 'No fling effect information available';
+    const fling_power = data.fling_power || 'No fling power information available';
+    // const held_by_pokemon = data.held_by_pokemon.pokemon[0].name;
+    const item_id = data.id || 'N/A';
+    const item_name = data.name || 'N/A';
+    const sprite = data.sprites.default || 'N/A';
+    const item_description = data.flavor_text_entries?.[2]?.text || data.flavor_text_entries?.[1]?.text || data.flavor_text_entries?.[0]?.text || 'No description available';
+
+    const itemCard = elt('div', {}, "",
+    elt('table', {}, "",
+        elt('tbody', {}, "",
+            elt('tr', {}, "",
+                elt('td', { colspan: 2 }, "",
+                    elt('img', { src: sprite }))),
+            elt('tr', {}, "",
+                elt('td', {}, capitalize(item_name))),
+            elt('tr', {}, "",
+                elt('td', {}, `Item ID:`),
+                elt('td', {}, `${item_id}`)),
+            elt('tr', {}, "",
+                elt('td', {}, `Item Description:`),
+                elt('td', {}, `${item_description}`)),
+            elt('tr', {}, "",
+                elt('td', {}, `Item Category:`),
+                elt('td', {}, `${item_category}`)),
+            elt('tr', {}, "",
+                elt('td', {}, `Cost:`),
+                elt('td', {}, `${cost}`)),
+            elt('tr', {}, "",
+                elt('td', {}, `Effect Entries:`),
+                elt('td', {}, `${effect_entries}`)))));
+    return [itemCard, name];  // Return as array
+}
