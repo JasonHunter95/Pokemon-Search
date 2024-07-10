@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const search_button = document.getElementById("search_button");
     const search_input_field = document.getElementById("search_input_field");
     const random_pokemon_btn = document.getElementById("random-pokemon-btn");
-    const type_buttons = document.querySelectorAll(".type-btn");
     const pokemon_container = document.getElementById("pokemon-container");
     const item_container = document.getElementById("item-container");
     const default_cards_div = document.getElementById('default-cards');
@@ -16,14 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return [null, null];
         });
         if (pokemon_card) {
-            pokemon_container.textContent = ''; // Clear previous contents more efficiently
+            pokemon_container.textContent = ''; // clear previous contents more efficiently
             while (pokemon_container.firstChild) {
                 pokemon_container.removeChild(pokemon_container.firstChild);
             }
             pokemon_container.appendChild(pokemon_card);
         }
         if (item_container) {
-            item_container.textContent = ''; // Clear previous contents more efficiently
+            item_container.textContent = ''; // clear previous contents more efficiently
             while (item_container.firstChild) {
                 item_container.removeChild(item_container.firstChild);
             }
@@ -31,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     search_input_field.addEventListener("keypress", async (event) => {
-        // If the user presses the "Enter" key on the keyboard
+        // if the user presses the "Enter" key on the keyboard
         if (event.key === "Enter") {
-            // Cancel the default action, if needed
+            // cancel the default action, if needed
             event.preventDefault();
             default_cards_div?.remove();
             const search_type = document.querySelector('input[name="search_type"]:checked').value;
@@ -62,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pokemon_container.textContent = `${capitalize(search_type)} not found.`;
                     return;
                 }
-                pokemon_container.textContent = ''; // Clear previous contents more efficiently
+                pokemon_container.textContent = ''; // clear previous contents more efficiently
                 while (pokemon_container.firstChild) {
                     pokemon_container.removeChild(pokemon_container.firstChild);
                 }
@@ -72,13 +70,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     item_container.textContent = `${capitalize(search_type)} not found.`;
                     return;
                 }
-                item_container.textContent = ''; // Clear previous contents more efficiently
+                item_container.textContent = ''; // clear previous contents more efficiently
                 while (item_container.firstChild) {
                     item_container.removeChild(item_container.firstChild);
                 }
                 item_container.appendChild(item_card);
             }
         }
+    });
+
+    document.querySelectorAll('[type="filter"]').forEach(button => {
+        button.addEventListener('click', function() {
+            default_cards_div.innerHTML = '';
+            item_container.innerHTML = '';
+            pokemon_container.innerHTML = '';
+            const type = this.getAttribute('data-type');
+            fetchPokemonByType(type);
+            // fetchPokemonDetails(type);
+        });
     });
 });
 
@@ -99,12 +108,12 @@ function elt(name, attrs, text, ...children) {
 async function make_pokemon_card(name) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
     if (!response.ok) {
-        return [null, null];  // Return null values if fetch fails
+        return [null, null];  // return null values if fetch fails
     }
     const data = await response.json();
     const img_url = data.sprites.other['official-artwork'].front_default;
     const stats = data.stats;
-    name = data.name;  // Adjusted to the correct scope if needed elsewhere
+    name = data.name;  // adjusted to the correct scope if needed elsewhere
     const hp = stats[0].base_stat;
     const attack = stats[1].base_stat;
     const defense = stats[2].base_stat;
@@ -114,7 +123,7 @@ async function make_pokemon_card(name) {
     const types_string = data.types.map(obj => obj.type.name).join(', ');
 
     const pokemonCard = elt('div', {}, "",
-    elt('a', { href: `/pokemon/${name}`, class: 'card-link' }, "",  // Link that points to the detailed view
+    elt('a', { href: `/pokemon/${name}`, class: 'card-link' }, "",  // link that points to the detailed view
         elt('table', {}, "",
             elt('tbody', {}, "",
                 elt('tr', {}, "",
@@ -144,7 +153,7 @@ async function make_pokemon_card(name) {
                     elt('tr', {}, "",
                         elt('td', {}, `Type(s):`),
                         elt('td', {}, `${types_string}`)))))));
-    return [pokemonCard, name];  // Return as array
+    return [pokemonCard, name];  // return as array
 }
 
 function capitalize(string) {
@@ -154,7 +163,7 @@ function capitalize(string) {
 async function make_item_card(name) {
     const response = await fetch(`https://pokeapi.co/api/v2/item/${name}`);
     if (!response.ok) {
-        return [null, null];  // Return null values if fetch fails
+        return [null, null];  // return null values if fetch fails
     }
     const data = await response.json();
     const is_countable = data.attributes?.[0]?.name || 'N/A';
@@ -198,5 +207,100 @@ async function make_item_card(name) {
             elt('tr', {}, "",
                 elt('td', {}, `Effect Entries:`),
                 elt('td', {}, `${effect_entries}`)))));
-    return [itemCard, name];  // Return as array
+    return [itemCard, name];  // return as array
 }
+async function fetchPokemonByType(type) {
+    try {
+        const url = `https://pokeapi.co/api/v2/type/${type}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        displayPokemon(data.pokemon);
+    } catch (error) {
+        console.error('Failed to fetch Pokémon by type:', error);
+    }
+}
+
+// this function is used to actually display the pokemon in card format
+async function displayPokemon(pokemon) {
+    const container = document.getElementById('pokemon-container');
+    container.innerHTML = '';  // Clear existing pokemon
+
+    for (let pokeWrapper of pokemon) {
+        const pokemon = await fetchPokemonDetails(pokeWrapper.pokemon.url);  // Fetch detailed data
+        const card = createPokemonCard(pokemon);
+        container.appendChild(card);
+    }
+}
+
+// this function is used to parse the json response from the API
+// it can further be extended to include more attributes
+// it is called in displayPokemon
+async function fetchPokemonDetails(url) {
+    const response = await fetch(url);
+    const pokemon = await response.json();
+    return {
+        name: pokemon.name,
+        img_url: pokemon.sprites.other['official-artwork'].front_default,  // Adjust according to where the image URL is found in the response
+        types: pokemon.types.map(type => type.type.name).join(', '),
+        hp: pokemon.stats[0].base_stat,
+        attack: pokemon.stats[1].base_stat,
+        defense: pokemon.stats[2].base_stat,
+        speed: pokemon.stats[5].base_stat
+        // add more attributes as needed
+    };
+}
+
+// this function is used to create a card for each pokemon in the response when fetching pokemon by type
+// it is called in displayPokemon to create a card for each pokemon captured by the type selected
+function createPokemonCard(pokemon) {
+    const card = document.createElement('div');
+    card.classList.add('pokemon-card');
+
+    const primaryType = pokemon.types.split(', ')[0].toLowerCase(); // Assuming the first type is the primary type
+    const typeClass = `type-${primaryType}`;
+
+    const cardInner = document.createElement('div');
+    cardInner.classList.add(`card`, typeClass);
+
+    const img = document.createElement('img');
+    img.src = pokemon.img_url;
+    img.alt = pokemon.name;
+    cardInner.appendChild(img);
+
+    const name = document.createElement('h5');
+    name.textContent = pokemon.name.toUpperCase();
+    cardInner.appendChild(name);
+
+    // Create type image element
+    const typeImg = document.createElement('img');
+    typeImg.src = `/images/${primaryType}_type_icon.png`; // Adjust the path as necessary
+    typeImg.alt = `${primaryType} type`;
+    typeImg.classList.add('type-icon');
+    cardInner.appendChild(typeImg);
+
+    const hp = document.createElement('p');
+    hp.textContent = `HP: ${pokemon.hp}`;
+    cardInner.appendChild(hp);
+
+    const attack = document.createElement('p');
+    attack.textContent = `Attack: ${pokemon.attack}`;
+    cardInner.appendChild(attack);
+
+    const defense = document.createElement('p');
+    defense.textContent = `Defense: ${pokemon.defense}`;
+    cardInner.appendChild(defense);
+
+    const speed = document.createElement('p');
+    speed.textContent = `Speed: ${pokemon.speed}`;
+    cardInner.appendChild(speed);
+
+    card.appendChild(cardInner);
+
+    return card;
+}
+
+
+
+
+
+
