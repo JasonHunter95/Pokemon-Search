@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const item_container = document.getElementById("item-container");
     const default_cards_div = document.getElementById('default-cards');
 
-    random_pokemon_btn?.addEventListener("click", async () => {
+    random_pokemon_btn.addEventListener("click", async () => {
         default_cards_div?.remove();
         const query = Math.floor(Math.random() * 1025) + 1;
         const [pokemon_card, pokemon_name] = await make_pokemon_card(query).catch(err => {
@@ -22,67 +22,62 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             pokemon_container.appendChild(pokemon_card);
         }
+        if (item_container) {
+            item_container.textContent = ''; // Clear previous contents more efficiently
+            while (item_container.firstChild) {
+                item_container.removeChild(item_container.firstChild);
+            }
+        }
     });
 
-    search_input_field.addEventListener("keypress", (event) => {
+    search_input_field.addEventListener("keypress", async (event) => {
         // If the user presses the "Enter" key on the keyboard
         if (event.key === "Enter") {
             // Cancel the default action, if needed
             event.preventDefault();
             default_cards_div?.remove();
-            // Trigger the button element with a click
-            search_button.click();
-        }
-    });
+            const search_type = document.querySelector('input[name="search_type"]:checked').value;
+            const query = search_input_field.value.toLowerCase();
+            let pokemon_card, pokemon_name, item_card, item_name;
 
-    search_button.addEventListener("click", async () => {
-        const search_type = document.querySelector('input[name="search_type"]:checked').value;
+            pokemon_container.textContent = '';
+            item_container.textContent = '';
 
-        if (!search_input_field.value.trim()) {
-            alert("Please enter a ${search_type} name.");
-            return;
-        }
-        default_cards_div?.remove();
-        const query = search_input_field.value.toLowerCase();
-        let pokemon_card, pokemon_name, item_card, item_name;
-
-        pokemon_container.textContent = '';
-        item_container.textContent = '';
-
-        if (search_type === "pokemon") {
-            [pokemon_card, pokemon_name] = await make_pokemon_card(query).catch(err => {
-                console.error(err);
-                pokemon_container.textContent = "Failed to fetch Pokémon data. Please try again.";
-                return [null, null];
-            });
-        } else if (search_type === "item") {
-            [item_card, item_name] = await make_item_card(query).catch(err => {
-                console.error(err);
-                item_container.textContent = "Failed to fetch item data. Please try again.";
-                return [null, null];
-            });
-        }
-
-        if (search_type === "pokemon") {
-            if (!pokemon_card) {
-                pokemon_container.textContent = `${capitalize(search_type)} not found.`;
-                return;
+            if (search_type === "pokemon") {
+                [pokemon_card, pokemon_name] = await make_pokemon_card(query).catch(err => {
+                    console.error(err);
+                    pokemon_container.textContent = "Failed to fetch Pokémon data. Please try again.";
+                    return [null, null];
+                });
+            } else if (search_type === "item") {
+                [item_card, item_name] = await make_item_card(query).catch(err => {
+                    console.error(err);
+                    item_container.textContent = "Failed to fetch item data. Please try again.";
+                    return [null, null];
+                });
             }
-            pokemon_container.textContent = ''; // Clear previous contents more efficiently
-            while (pokemon_container.firstChild) {
-                pokemon_container.removeChild(pokemon_container.firstChild);
+
+            if (search_type === "pokemon") {
+                if (!pokemon_card) {
+                    pokemon_container.textContent = `${capitalize(search_type)} not found.`;
+                    return;
+                }
+                pokemon_container.textContent = ''; // Clear previous contents more efficiently
+                while (pokemon_container.firstChild) {
+                    pokemon_container.removeChild(pokemon_container.firstChild);
+                }
+                pokemon_container.appendChild(pokemon_card);
+            } else if (search_type === "item") {
+                if (!item_card) {
+                    item_container.textContent = `${capitalize(search_type)} not found.`;
+                    return;
+                }
+                item_container.textContent = ''; // Clear previous contents more efficiently
+                while (item_container.firstChild) {
+                    item_container.removeChild(item_container.firstChild);
+                }
+                item_container.appendChild(item_card);
             }
-            pokemon_container.appendChild(pokemon_card);
-        } else if (search_type === "item") {
-            if (!item_card) {
-                item_container.textContent = `${capitalize(search_type)} not found.`;
-                return;
-            }
-            item_container.textContent = ''; // Clear previous contents more efficiently
-            while (item_container.firstChild) {
-                item_container.removeChild(item_container.firstChild);
-            }
-            item_container.appendChild(item_card);
         }
     });
 });
