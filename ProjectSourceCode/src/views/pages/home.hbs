@@ -1,4 +1,55 @@
-<div id="title">Homepage</div> 
+<section class="search-section">
+  <div class="container">
+    <div class="row">
+      <div class="search-header">
+        <h1>Search</h1>
+      </div>
+      <div class="search-bar">
+        <div class="search-type">
+          <label>
+            <input type="radio" name="search_type" value="pokemon" checked />
+            Pokémon
+          </label>
+          <label>
+            <input type="radio" name="search_type" value="item" />
+            Item
+          </label>
+        </div>
+        <input
+          type="text"
+          id="search_input_field"
+          placeholder="Search for ANY Pokémon or Item by name or ID# ..."
+        />
+        {{!-- <button type="submit" id="search_button">Search</button> --}}
+        <button type="submit" id="random-pokemon-btn">Random Pokémon</button>
+      </div>
+    </div>
+    <div class = "filter-by-type">
+      <h5>Filter by Type</h5>
+      <div class = "type-btn-container">
+        <button type = "filter" id = "normal-btn">Normal <img src = "/images/normal_type_icon.png" alt = "Normal" style = "height: 20px;"></button>
+        <button type = "filter" id = "fire-btn">Fire <img src = "/images/fire_type_icon.png" alt = "Fire" style = "height: 20px;"></button>
+        <button type = "filter" id = "water-btn">Water <img src = "/images/water_type_icon.png" alt = "Water" style = "height: 20px;"></button>
+        <button type = "filter" id = "electric-btn">Electric <img src = "/images/electric_type_icon.png" alt = "Electric" style = "height: 20px;"></button>
+        <button type = "filter" id = "grass-btn">Grass <img src = "/images/grass_type_icon.png" alt = "Grass" style = "height: 20px;"></button>
+        <button type = "filter" id = "ice-btn">Ice <img src = "/images/ice_type_icon.png" alt = "Ice" style = "height: 20px;"></button>
+        <button type = "filter" id = "fighting-btn">Fighting <img src = "/images/fighting_type_icon.png" alt = "Fighting" style = "height: 20px;"></button>
+        <button type = "filter" id = "poison-btn">Poison <img src = "/images/poison_type_icon.png" alt = "Poison" style = "height: 20px;"></button>
+        <button type = "filter" id = "ground-btn">Ground <img src = "/images/ground_type_icon.png" alt = "Ground" style = "height: 20px;"></button>
+        <button type = "filter" id = "flying-btn">Flying <img src = "/images/flying_type_icon.png" alt = "Flying" style = "height: 20px;"></button>
+        <button type = "filter" id = "psychic-btn">Psychic <img src = "/images/psychic_type_icon.png" alt = "Psychic" style = "height: 20px;"></button>
+        <button type = "filter" id = "bug-btn">Bug <img src = "/images/bug_type_icon.png" alt = "Bug" style = "height: 20px;"> </button>
+        <button type = "filter" id = "rock-btn">Rock <img src = "/images/rock_type_icon.png" alt = "Rock" style = "height: 20px;"></button>
+        <button type = "filter" id = "ghost-btn">Ghost <img src = "/images/ghost_type_icon.png" alt = "Ghost" style = "height: 20px;"></button>
+        <button type = "filter" id = "dragon-btn">Dragon <img src = "/images/dragon_type_icon.png" alt = "Dragon" style = "height: 20px;"></button>
+        <button type = "filter" id = "dark-btn">Dark <img src = "/images/dark_type_icon.png" alt = "Dark" style = "height: 20px;"></button>
+        <button type = "filter" id = "steel-btn">Steel <img src = "/images/steel_type_icon.png" alt = "Steel" style = "height: 20px;"></button>
+        <button type = "filter" id = "fairy-btn">Fairy <img src = "/images/fairy_type_icon.png" alt = "Fairy" style = "height: 20px;"></button>
+    </div>
+  </div>
+</section>
+<div id="pokemon-container"></div>
+<div id="item-container"></div>
 <script type="text/javascript" src="/js/search.js"></script>
 <div id="default-cards">
   {{#each results}}
