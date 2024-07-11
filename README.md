@@ -6,9 +6,9 @@ if you wish to run this locally:
 2. clone this repository and open it in vscode.
 3. navigate to the ProjectSourceCode folder and add a .env file containing the following:
 
-    POSTGRES_USER="postgres"
-    POSTGRES_PASSWORD="pwd"
-    POSTGRES_DB="pokedex_db"
+    POSTGRES_USER="postgres" //
+    POSTGRES_PASSWORD="pwd" //
+    POSTGRES_DB="pokedex_db" //
     
     SESSION_SECRET="super duper secret!"
 
