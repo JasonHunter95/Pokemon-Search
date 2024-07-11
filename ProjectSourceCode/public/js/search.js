@@ -257,6 +257,7 @@ function createPokemonCard(pokemon) {
     card.classList.add('pokemon-card');
 
     const primaryType = pokemon.types.split(', ')[0].toLowerCase(); // Assuming the first type is the primary type
+    const secondaryType = pokemon.types.split(', ')[1]; // Assuming the second type is the secondary type
     const typeClass = `type-${primaryType}`;
 
     const cardInner = document.createElement('div');
@@ -277,6 +278,14 @@ function createPokemonCard(pokemon) {
     typeImg.alt = `${primaryType} type`;
     typeImg.classList.add('type-icon');
     cardInner.appendChild(typeImg);
+
+    if (secondaryType) {
+        const typeImg = document.createElement('img');
+        typeImg.src = `/images/${secondaryType}_type_icon.png`; // Adjust the path as necessary
+        typeImg.alt = `${secondaryType} type`;
+        typeImg.classList.add('type-icon');
+        cardInner.appendChild(typeImg);
+    }
 
     const hp = document.createElement('p');
     hp.textContent = `HP: ${pokemon.hp}`;
