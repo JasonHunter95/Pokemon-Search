@@ -20,31 +20,30 @@
           id="search_input_field"
           placeholder="Search for ANY Pokémon or Item by name or ID# ..."
         />
-        {{!-- <button type="submit" id="search_button">Search</button> --}}
         <button type="submit" id="random-pokemon-btn">Random Pokémon</button>
       </div>
     </div>
     <div class = "filter-by-type">
       <h5>Filter by Type</h5>
       <div class = "type-btn-container">
-        <button type = "filter" id = "normal-btn">Normal <img src = "/images/normal_type_icon.png" alt = "Normal" style = "height: 20px;"></button>
-        <button type = "filter" id = "fire-btn">Fire <img src = "/images/fire_type_icon.png" alt = "Fire" style = "height: 20px;"></button>
-        <button type = "filter" id = "water-btn">Water <img src = "/images/water_type_icon.png" alt = "Water" style = "height: 20px;"></button>
-        <button type = "filter" id = "electric-btn">Electric <img src = "/images/electric_type_icon.png" alt = "Electric" style = "height: 20px;"></button>
-        <button type = "filter" id = "grass-btn">Grass <img src = "/images/grass_type_icon.png" alt = "Grass" style = "height: 20px;"></button>
-        <button type = "filter" id = "ice-btn">Ice <img src = "/images/ice_type_icon.png" alt = "Ice" style = "height: 20px;"></button>
-        <button type = "filter" id = "fighting-btn">Fighting <img src = "/images/fighting_type_icon.png" alt = "Fighting" style = "height: 20px;"></button>
-        <button type = "filter" id = "poison-btn">Poison <img src = "/images/poison_type_icon.png" alt = "Poison" style = "height: 20px;"></button>
-        <button type = "filter" id = "ground-btn">Ground <img src = "/images/ground_type_icon.png" alt = "Ground" style = "height: 20px;"></button>
-        <button type = "filter" id = "flying-btn">Flying <img src = "/images/flying_type_icon.png" alt = "Flying" style = "height: 20px;"></button>
-        <button type = "filter" id = "psychic-btn">Psychic <img src = "/images/psychic_type_icon.png" alt = "Psychic" style = "height: 20px;"></button>
-        <button type = "filter" id = "bug-btn">Bug <img src = "/images/bug_type_icon.png" alt = "Bug" style = "height: 20px;"> </button>
-        <button type = "filter" id = "rock-btn">Rock <img src = "/images/rock_type_icon.png" alt = "Rock" style = "height: 20px;"></button>
-        <button type = "filter" id = "ghost-btn">Ghost <img src = "/images/ghost_type_icon.png" alt = "Ghost" style = "height: 20px;"></button>
-        <button type = "filter" id = "dragon-btn">Dragon <img src = "/images/dragon_type_icon.png" alt = "Dragon" style = "height: 20px;"></button>
-        <button type = "filter" id = "dark-btn">Dark <img src = "/images/dark_type_icon.png" alt = "Dark" style = "height: 20px;"></button>
-        <button type = "filter" id = "steel-btn">Steel <img src = "/images/steel_type_icon.png" alt = "Steel" style = "height: 20px;"></button>
-        <button type = "filter" id = "fairy-btn">Fairy <img src = "/images/fairy_type_icon.png" alt = "Fairy" style = "height: 20px;"></button>
+        <button type = "filter" id = "normal-btn" data-type = "normal"> Normal <img src = "/images/normal_type_icon.png" alt = "Normal" style = "height: 20px;"></button>
+        <button type = "filter" id= "fire-btn" data-type = "fire"> Fire <img src="/images/fire_type_icon.png" alt="Fire" style="height: 20px;"></button>
+        <button type = "filter" id = "water-btn" data-type = "water"> Water <img src = "/images/water_type_icon.png" alt = "Water" style = "height: 20px;"></button>
+        <button type = "filter" id = "electric-btn" data-type = "electric"> Electric <img src = "/images/electric_type_icon.png" alt = "Electric" style = "height: 20px;"></button>
+        <button type = "filter" id = "grass-btn" data-type = "grass"> Grass <img src = "/images/grass_type_icon.png" alt = "Grass" style = "height: 20px;"></button>
+        <button type = "filter" id = "ice-btn" data-type = "ice"> Ice <img src = "/images/ice_type_icon.png" alt = "Ice" style = "height: 20px;"></button>
+        <button type = "filter" id = "fighting-btn" data-type = "fighting">Fighting <img src = "/images/fighting_type_icon.png" alt = "Fighting" style = "height: 20px;"></button>
+        <button type = "filter" id = "poison-btn" data-type = "poison">Poison <img src = "/images/poison_type_icon.png" alt = "Poison" style = "height: 20px;"></button>
+        <button type = "filter" id = "ground-btn" data-type = "ground">Ground <img src = "/images/ground_type_icon.png" alt = "Ground" style = "height: 20px;"></button>
+        <button type = "filter" id = "flying-btn" data-type = "flying">Flying <img src = "/images/flying_type_icon.png" alt = "Flying" style = "height: 20px;"></button>
+        <button type = "filter" id = "psychic-btn" data-type = "psychic">Psychic <img src = "/images/psychic_type_icon.png" alt = "Psychic" style = "height: 20px;"></button>
+        <button type = "filter" id = "bug-btn" data-type = "bug">Bug <img src = "/images/bug_type_icon.png" alt = "Bug" style = "height: 20px;"> </button>
+        <button type = "filter" id = "rock-btn" data-type = "rock">Rock <img src = "/images/rock_type_icon.png" alt = "Rock" style = "height: 20px;"></button>
+        <button type = "filter" id = "ghost-btn" data-type = "ghost">Ghost <img src = "/images/ghost_type_icon.png" alt = "Ghost" style = "height: 20px;"></button>
+        <button type = "filter" id = "dragon-btn" data-type = "dragon">Dragon <img src = "/images/dragon_type_icon.png" alt = "Dragon" style = "height: 20px;"></button>
+        <button type = "filter" id = "dark-btn" data-type = "dark">Dark <img src = "/images/dark_type_icon.png" alt = "Dark" style = "height: 20px;"></button>
+        <button type = "filter" id = "steel-btn" data-type = "steel">Steel <img src = "/images/steel_type_icon.png" alt = "Steel" style = "height: 20px;"></button>
+        <button type = "filter" id = "fairy-btn" data-type = "fairy">Fairy <img src = "/images/fairy_type_icon.png" alt = "Fairy" style = "height: 20px;"></button>
     </div>
   </div>
 </section>
